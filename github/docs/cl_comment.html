@@ -1,0 +1,58 @@
+﻿<!DOCTYPE html>
+<html>
+  <head>
+    <title>コンリテ講評</title>
+    <meta charset="utf-8">
+    <script type="text/javascript">
+      var Rates = ["0.00","1.00","2.00","3.00","4.00","5.00","6.00","7.00","8.00"];
+      var Comments = ["大変結構です。","おつかれさまでした","よく書けています","","","",
+                     "","","","","適切な回答です,詳細に分析していますので加点します.","適切な回答です.",
+                     "(コメント募集中)","(コメント募集中)","(コメント募集中)","(コメント募集中)","(コメント募集中)","(コメント募集中)",
+                     "(コメント募集中)","大変よくできています。","大変よくできました。","よくできました。","(コメント募集中)","(コメント募集中)"];
+      var Count = 0 ;
+      function show() {
+      if( Count >= 15 ){ alert("全ての講評が終了しました。") ; return };
+      var Rate = document.getElementById("Rate") ;
+      var Num = Math.floor(Math.random() * 5);
+      var LateCheck = document.getElementById("LateCheck");
+      var radioNodeList = LateCheck.late;
+      var Penalty = radioNodeList.value;
+      if( Penalty == 'late' ){ Num-- };
+      if( Num < 0 ){ Num = 0 };
+      if( Count == 10 || Count == 13){ Num = 2 * Num };	
+      Rate.value = Rates[Num];
+      var StudentNumber = document.getElementById("StudentNumber").value;
+      StudentNumber = parseFloat(StudentNumber);
+      var ClassNumber = ( StudentNumber - 1910000 ) % 12 ;
+      if( ClassNumber == 0 ){ ClassNumber = 12 };
+      var CommentNumber = 2 * ClassNumber - 1 ;
+      if( Num == 8 && Count == 10 ){ CommentNumber-- ;}
+      else if( Num == 8 && Count == 13 ){ CommentNumber-- ;}
+      else if( Num == 4 && Count !=  10 ){CommentNumber-- ;}
+      else if( Num == 4 && Count !=  13 ){CommentNumber-- ;}
+      else {};
+      var Comment = document.getElementById("Comment");
+      if( Num == 0 ){ Comment.value = "";}
+      else {Comment.value = Comments[CommentNumber]};
+      var ClassNumberShow = document.getElementById("ClassNumberShow");
+      ClassNumberShow.value = ClassNumber;
+      Count++;
+      var ClassTimes = document.getElementById("Times");
+      ClassTimes.value = Count;
+      }
+    </script>
+  </head>
+  <body>
+    <div>
+      <span style="font-size:24px">コンリテ講評第<input type="text" id="Times">回(<input type="text" id="ClassNumberShow">クラ)</span><br>
+	学籍番号<input type="Number" id="StudentNumber" placeholder="学籍番号" maxlength="7"><br>
+      <form id="LateCheck">
+	<input name="late" type="radio" value="normal">通常
+        <input name="late" type="radio" value="late">late-submission
+      </form>
+      <button onclick="show()">講評する</button><br>
+      点数<input type="text" id="Rate" placeholder="点数"><br>
+      コメント <input type="text" id="Comment">
+    </div>
+  </body>
+</html>
